@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duotone Press — two-ink poster processor</title>
+<meta name="description" content="Drop in a photo, crush it to two inks with grain and halftone dither, export a PNG. Runs entirely in your browser.">
+
+<!-- Social preview. Swap the URL once you know your Pages address. -->
+<meta property="og:title" content="Duotone Press">
+<meta property="og:description" content="Two-ink poster processor. Runs entirely in your browser.">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23e8171f'/><rect x='3' y='3' width='10' height='10' fill='%23111'/></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="console">
+    <header>
+      <h1 class="wordmark">Duotone<br>Press</h1>
+      <p class="strap">Drop a photo in, crush it to two inks, export a PNG.</p>
+    </header>
+
+    <hr class="rule">
+
+    <section class="group">
+      <h2>Ink</h2>
+      <div class="wells">
+        <div class="well">
+          <label for="shadow">Shadows</label>
+          <input type="color" id="shadow" value="#000000">
+        </div>
+        <button class="swap" id="swap" title="Swap the two inks" aria-label="Swap the two inks">⇄</button>
+        <div class="well">
+          <label for="highlight">Highlights</label>
+          <input type="color" id="highlight" value="#e8171f">
+        </div>
+      </div>
+      <!-- Populated from the PRESETS array in app.js -->
+      <div class="presets" id="presets"></div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="group">
+      <h2>Exposure</h2>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="contrast">Contrast</label>
+          <output class="readout" id="contrastOut">18</output>
+        </div>
+        <input type="range" id="contrast" min="1" max="100" value="18">
+        <p class="hint">Push it right to collapse the midtones toward a hard threshold.</p>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="midpoint">Midpoint</label>
+          <output class="readout" id="midpointOut">0.50</output>
+        </div>
+        <input type="range" id="midpoint" min="5" max="95" value="50">
+        <p class="hint">Where the image flips from one ink to the other.</p>
+      </div>
+
+      <div class="field">
+        <div class="checkline">
+          <input type="checkbox" id="invert">
+          <label for="invert">Invert luminance</label>
+        </div>
+        <p class="hint">Flips which parts of the photo take which ink.</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="group">
+      <h2>Texture</h2>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="grain">Grain</label>
+          <output class="readout" id="grainOut">14</output>
+        </div>
+        <input type="range" id="grain" min="0" max="60" value="14">
+      </div>
+
+      <div class="field">
+        <div class="checkline">
+          <input type="checkbox" id="dither" checked>
+          <label for="dither">Halftone dither</label>
+        </div>
+        <p class="hint">Ordered dot pattern in the transition areas, like a photocopy.</p>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="dotsize">Dot size</label>
+          <output class="readout" id="dotsizeOut">2</output>
+        </div>
+        <input type="range" id="dotsize" min="1" max="8" value="2">
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="download" disabled>Save PNG</button>
+      <button id="reset" disabled>Load a different photo</button>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose a photo to process">
+      <p class="big">Drop a photo here</p>
+      <p class="small">Or click to browse. Nothing leaves your machine — it all runs in the page.</p>
+    </div>
+    <canvas id="canvas" class="hidden"></canvas>
+  </main>
+</div>
+
+<input type="file" id="file" accept="image/*" class="hidden">
+
+<script src="app.js"></script>
+</body>
+</html>
